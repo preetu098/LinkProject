@@ -2,11 +2,11 @@
 import requests
 from datetime import date
 from bs4 import BeautifulSoup
-from connection import cnxn
+# from connection import cnxn
 today = date.today()
 
 
-cursor = cnxn.cursor()
+# cursor = cnxn.cursor()
 r=requests.get('https://www.burundi-forum.org/')
 soup = BeautifulSoup(r.content, "html.parser")
 
@@ -26,6 +26,6 @@ print(pTag)
 
 
 
-for x in range(len(url)):
-    cursor.execute("insert into nc_news(tTitle,tDescription,tPhoto,country_Id,category_Id,createdDate,aURL) values(?,?,?,?,?,?,?)",hTag[x],pTag[x],imgSrc[x],6,1,today,ahref[x])
-cnxn.commit()
+# for x in range(len(url)):
+#     cursor.execute("insert into nc_news(tTitle,tDescription,tPhoto,country_Id,category_Id,createdDate,aURL) values(?,?,?,?,?,?,?)",hTag[x],pTag[x],imgSrc[x],6,1,today,ahref[x])
+# cnxn.commit()

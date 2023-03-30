@@ -3,43 +3,36 @@
 
 
 
+
+
+#https://lanouvelletribune.info/tag/benin/
 import requests
 from datetime import date
 from bs4 import BeautifulSoup
-from connection import cnxn
+# from connection import cnxn
 today = date.today()
 
 
-
-cursor = cnxn.cursor()
+# cursor = cnxn.cursor()
 r=requests.get('https://www.weekendpost.co.bw/')
 soup = BeautifulSoup(r.content, "html.parser")
 
-titles=[]
-descr=[]
-images=[]
-url=[]
-for x in soup.findAll("h3", class_= "jeg_post_title"):
-    title=x.get_text()
-    myurl=x.find('a')['href']
-    
-    
-    titles.append(title.lstrip())
-    url.append(myurl.lstrip())
+data=soup.select("mvp-feat5-wrap")
 
-# # print("...................................................")
+aTag=[x.find("a") for x in data]
+ahref=[x['href'] for x in aTag]
 
-for x in soup.findAll("div",class_="jeg_post_excerpt"):
-    
-    descr.append(x.get_text().lstrip())
-    
+iTag=[x.find("img") for x in data]
+imgSrc=[x['src'] for x in iTag]
 
-for x in soup.findAll('div',class_="thumbnail-container"):
-    t=x.find('img')['src']
-    images.append(t)
-    
+hTag=[x.find("h2").get_text().lstrip() for x in data]
 
-for x in range(len(url)):
-    cursor.execute("insert into nc_news(tTitle,tDescription,tPhoto,country_Id,category_Id,createdDate,aURL) values(?,?,?,?,?,?,?)",titles[x],descr[x],images[x],3,1,today,url[x])
 
-cnxn.commit()
+pTag=[x.find("p").get_text().lstrip() for x in data]
+print(pTag)
+
+
+
+# for x in range(len(url)):
+#     cursor.execute("insert into nc_news(tTitle,tDescription,tPhoto,country_Id,category_Id,createdDate,aURL) values(?,?,?,?,?,?,?)",hTag[x],pTag[x],imgSrc[x],6,1,today,ahref[x])
+# cnxn.commit()
