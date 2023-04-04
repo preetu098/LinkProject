@@ -1,3 +1,4 @@
+#https://www.mmegi.bw/
 
 
 
@@ -9,16 +10,15 @@ from connection import cnxn
 today = date.today()
 
 
-
 cursor = cnxn.cursor()
-r=requests.get('/')
+r=requests.get('http://www.camerounlink.com/actu/Cameroun-Toute-L-actualite-nationale/grpe-1/')
 soup = BeautifulSoup(r.content, "html.parser")
 
 titles=[]
 descr=[]
 images=[]
 url=[]
-for x in soup.findAll("h3", class_= "elementor-post__title"):
+for x in soup.findAll("h2", class_= "article-title"):
     title=x.get_text()
     myurl=x.find('a')['href']
     
@@ -26,13 +26,14 @@ for x in soup.findAll("h3", class_= "elementor-post__title"):
     titles.append(title.lstrip())
     url.append(myurl.lstrip())
 
-# # # # # print("...................................................")
+# # # print("...................................................")
 
-for x in soup.findAll("div",class_="elementor-post__excerpt"):
-    print(x.find("p").get_text())
+for x in soup.findAll("p",class_="article-body"):
+    
     descr.append(x.get_text().lstrip())
-  
-for x in soup.findAll('div',class_="elementor-post__thumbnail"):
+    
+
+for x in soup.findAll('div',class_="layout-ratio"):
     t=x.find('img')['src']
     images.append(t)
     
